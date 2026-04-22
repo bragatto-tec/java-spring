@@ -42,14 +42,7 @@ public class VeiculoController {
     }
 
     @GetMapping("/{placa}")
-    public ResponseEntity<Veiculo> buscarPorId(@PathVariable String placa) {
-        return veiculoService.buscarPorPlaca(placa)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/buscar")
-    public ResponseEntity<Veiculo> buscarPorPlaca(@RequestParam String placa) {
+    public ResponseEntity<Veiculo> buscarPorPlaca(@PathVariable String placa) {
         return veiculoService.buscarPorPlaca(placa)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -71,7 +64,7 @@ public class VeiculoController {
             veiculoService.remover(placa);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }
